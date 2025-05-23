@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永憶生命禮儀 - 全生命儀式整合平台</title>
+    <style>
+        /* 基礎樣式 - 夜幕藍與暖金色系 */
+        :root {
+            --night-blue: #0a1a2f;
+            --warm-gold: #d4af37;
+            --particle-glow: rgba(212, 175, 55, 0.3);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(to bottom, var(--night-blue), #1a2b4f);
+            color: #fff;
+            margin: 0;
+        }
+
+        /* 動態粒子背景 */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            z-index: -1;
+        }
+
+        /* 首頁區塊 */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* 情境式導航按鈕 */
+        .scenario-buttons {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .scenario-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--warm-gold);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        /* 互動懸浮效果 */
+        .scenario-btn:hover {
+            transform: translateY(-5px);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* AI規劃器模擬介面 */
+        .ai-planner {
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 800px;
+        }
+
+        /* 實用工具區塊 */
+        .utility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- 首頁情境引導 -->
+    <section class="hero-section">
+        <div class="scenario-buttons">
+            <div class="scenario-btn">
+                <h2>🕯️ 我想預先規劃</h2>
+                <p>透過AI引導，輕鬆建立您的生命儀式藍圖</p>
+            </div>
+            <div class="scenario-btn">
+                <h2>🆘 需要立即協助</h2>
+                <p>24小時專業禮儀師連線支援</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI生前契約規劃器 -->
+    <section class="ai-planner">
+        <h2>AI儀式規劃精靈</h2>
+        <div class="question-step">
+            <label>您希望的儀式風格是？</label>
+            <select id="style-select">
+                <option value="traditional">傳統宗教儀式</option>
+                <option value="modern">現代簡約風格</option>
+                <option value="eco">環保自然葬</option>
+            </select>
+        </div>
+        <!-- 更多互動問題步驟 -->
+    </section>
+
+    <!-- 實用工具區 -->
+    <section class="utility-grid">
+        <div class="tool-card">
+            <h3>📌 塔位比價地圖</h3>
+            <div id="map-placeholder"></div>
+        </div>
+        <div class="tool-card">
+            <h3>📜 法規諮詢助手</h3>
+            <input type="text" placeholder="輸入您的法律問題...">
+        </div>
+    </section>
+
+    <script>
+        // 粒子背景效果
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speed = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = var(--particle-glow);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 初始化粒子系統
+        const particles = Array.from({ length: 100 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 響應式調整
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // 互動事件範例
+        document.querySelectorAll('.scenario-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 實作頁面跳轉或顯示模態框
+                alert('功能模組開發中...');
+            });
+        });
+    </script>
+</body>
+</html>
